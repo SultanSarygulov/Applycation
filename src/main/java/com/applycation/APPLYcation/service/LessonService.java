@@ -20,15 +20,6 @@ public class LessonService {
         loadDatabase();
     }
 
-    private void loadDatabase() {
-        try {
-            Database database = objectMapper.readValue(new File(JSON_FILE_PATH), Database.class);
-            this.lessons = database.getLessons();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public List<Lesson> getAllLessons() {
         return lessons;
     }
@@ -43,6 +34,15 @@ public class LessonService {
                 .filter(l -> l.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new LessonNotFoundException(id));
+    }
+
+    private void loadDatabase() {
+        try {
+            Database database = objectMapper.readValue(new File(JSON_FILE_PATH), Database.class);
+            this.lessons = database.getLessons();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void saveDatabase() {
